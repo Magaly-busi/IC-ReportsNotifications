@@ -33,7 +33,7 @@ processArgs $*
 echo "Iniciando proceso de obtencion de errores"
 cd /tmp/Logs/Operations/IC/Transformations/$year/$month/$day
 prio="TRANSFORMATION_IC_*"
-comGrep="  | egrep -B 30 'FAILED' > "
+comGrep="  | egrep -B 100 'FAILED' > "
 archivo="Error"
 separador="_"
 todos="*"
@@ -42,7 +42,7 @@ DIA=`date +"%Y_%m_%d"`
 HORA=`date +"%H_%M"`
 if [ -z "$countries" ] ;
 then shift ;
-grep -H -B 30 "FAILED" TRANSFORMATION_IC_* > /tmp/Logs/Operations/IC/Transformations/ErroresTotal$separador$DIA$separador$HORA.txt
+grep -H -B 100 "FAILED" TRANSFORMATION_IC_* > /tmp/Logs/Operations/IC/Transformations/ErroresTotal$separador$DIA$separador$HORA.txt
 else
 echo "Mas de uno"
 IFS=',' read -ra ADDR <<< "$countries"
@@ -52,6 +52,6 @@ for i in "${ADDR[@]}"; do
     cad=$cad" "$prio$i$todos
 done
 archivo=$archivo$separador$DIA$separador$HORA$extencion
-grep -H -B 30 "FAILED" $cad > $archivo > /tmp/Logs/Operations/IC/Transformations/$archivo
+grep -H -B 100 "FAILED" $cad > $archivo > /tmp/Logs/Operations/IC/Transformations/$archivo
 fi
 echo "Proceso obtencion de errores Finalizado"
